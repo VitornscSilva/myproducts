@@ -5,8 +5,11 @@ import validateUser from '../app/middlewares/validateUser';
 import JokeController from '../app/controllers/JokeController';
 import ProductController from '../app/controllers/ProductController';
 import AuthController from '../app/controllers/AuthController';
+import HealthController from '../app/controllers/HealthController';
 
 const router = Router();
+
+router.get('/health', HealthController.index);
 
 router.get('/products', ProductController.index);
 router.get('/products/:id', ProductController.show);

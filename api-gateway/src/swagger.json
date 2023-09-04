@@ -38,6 +38,22 @@
     }
   ],
   "paths": {
+    "/health": {
+      "get": {
+        "tags": ["Utils"],
+        "summary": "Check the health status of the API Gateway",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": { "status": "up" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/products": {
       "get": {
         "tags": [
