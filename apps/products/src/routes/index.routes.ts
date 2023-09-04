@@ -4,6 +4,7 @@ import ProductController from '../app/controllers/ProductController';
 
 const router = express.Router();
 
+router.get('/health', ProductController.health);
 router.get('/products', ProductController.index);
 router.get('/products/:id', ProductController.show);
 router.delete('/products/:id', ProductController.delete);

@@ -5,6 +5,7 @@ import { hash, compare } from "bcryptjs";
 import isValidObjectId from '../utils/isValidObjectId';
 import UsersRepository from '../repositories/UsersRepository';
 import auth from '../config/auth';
+import { connectToDatabase } from '../../database';
 
 class AuthController {
   async index(request: Request, response: Response) {
@@ -73,6 +74,17 @@ class AuthController {
     const jwt = sign({ id: user._id }, auth.jwt.secret)
 
     response.json({ email, jwt  })
+  }
+
+  async health(request: Request, response: Response) {
+    try {
+      const db = await connectToDatabase();
+      await db.command({ ping: 1 });
+    
+      response.status(200).json({ status: 'up' });
+    } catch (error: any) {
+      response.status(500).json({ status: 'down', error: error.message });
+    }
   }
 }
 

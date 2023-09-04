@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import isValidObjectId from '../utils/isValidObjectId';
 import ProductsRepository from '../repositories/ProductsRepository';
+import { connectToDatabase } from '../../database';
 
 class ProductController {
   async index(request: Request, response: Response) {
@@ -68,6 +69,17 @@ class ProductController {
 
     await ProductsRepository.delete(id);
     response.sendStatus(204);
+  }
+
+  async health(request: Request, response: Response) {
+    try {
+      const db = await connectToDatabase();
+      await db.command({ ping: 1 });
+    
+      response.status(200).json({ status: 'up' });
+    } catch (error: any) {
+      response.status(500).json({ status: 'down', error: error.message });
+    }
   }
 }
 
